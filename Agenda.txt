@@ -1,0 +1,247 @@
+Development
+-----------
+1) Move sensor down to see better results with ORB_SLAM (TICK)
+	and check it with icp + gazebo
+
+2) Create bag file with more objects  (TICK)
+
+3) Down-sample 
+
+4) Create world from urdf such that configuration of world can be changed. (TICK)
+
+Research
+--------
+
+1) Dense map  to edges by studying normals. (TICK)  
+
+2) L3dpp - filter : only horizontal and vertical lines (TICK)
+
+3) Line Line registeration.
+
+
+----------------------------------------------------------------------------------------
+29/04/2018
+
+Done:
+----
+ORBSLAM -> Pointcloud -> Lind3dpp -> Lines
+
+Gazebo -> Depthmap -> Edges -> RANSAC_Lines
+
+To do:
+-----
+Line Registeration. How?
+Improve both the pipelines
+	ORBSLAM pipeline: 
+		Filter 3D lines to extract more prominant lines. Filter using lentgh, angle with verticle.(TICK)
+	Depthmap :
+		Downsample the depthmap for faster processing.
+		Complete the Edge lines represenation to take it further to line regiteration. (TICK)
+		Find a way to remove gazebo from the pipeline. 
+
+Get DfUSMC data.
+
+-----------------------------------------------------------------------------------------
+Date 17/5/18
+To DO: 
+1) Make ORB_SLAM input dataset Local(meaning drone should hover only at a certain height). Consequently take gazebo depth map from the local position.
+	- Bring ORBSLAM map to scale.
+		- How to do it??? ASK ARNAB. I forgot.
+	- Try from different local positions and angles.
+
+2) Reduce noise lines by Morphing the 3d line segments. Use erosion and dilation.
+
+3) Intern is coming. Read on DSO.
+IDEAS:
+Why use ORB_SLAM? Lets see the results of line_based SLAM. But we dont have code for it. READ THE PAPER and see if you can do it yourself.
+
+------------------------------------------------------------------------------------------
+The main goal is to device a way to localize the drone, given a human map.
+So the proposed method is this
+
+When the drone needs relocalization, 
+	- Use SLAM(currently ORBSLAM) and get local map. Get local map from gazebo.
+	- Extract lines from both the maps.(whole map from gazebo can be converted into line-map and stored and local map extracted from it.)
+ 	- Rectify SLAM map using morphing techniques and remove noise.
+	- Register both the maps and get the exact localization.
+
+
+------------------------------------------------------------------------------------------
+Date 18/5/18
+So here is the plan.
+Read DSO.
+Read Line-based Monocular Graph SLAM
+Work on local line registeration
+	- Get local datasets.
+	- Caliberate gazebo world and real world.
+	- Get lines from both.
+	- Adjust scale of SLAM Maps
+	- Improve the SLAM line cloud using morphing techniques.
+Date 22/5/18
+After last friday discussion, 
+	- Get dataset with localized position
+	- Rectiify line extraction by appropriate filters/morphing techniques.
+	- Run the line matching and see results now.
+	-
+
+-------------------------------------------------------------------------------------------
+Date 24/5/18(Thu)
+
+What did I do past 7 days?
+
+After meeting with arnab, the minutes of meeting are in date 17th thrusday log.
+That day and next day the 18th Friday, I read papers like Line based SLAM, DSO ect ect(Non conclusive work). 
+
+19th, 20th Weekend Holiday.
+
+21st Monday: Discussion with arnab. Move ahead with implementation. 
+
+22nd Tuesday : Optitrack was setup. Calibrating optitrack took many trials and time. The drone was not flying properly. 
+
+23rd Wednesday : Went to office early in the morning. Decided not to move the drone much while taking dataset, but the drone did not give yesterdays problem for some time. Took dataset. Marked good time windows as separate datasets. Tinkered Line3dpp and ORBSLAM to give good results, though hardly any changes were required. When I ran the ORB_SLAM on these datasets, entire bagfile gave very recognizable line features. But the localized datasets did not give satisfactory 3dlines. The gazebo world is provided the lab model. Went home, modeled solidworks and came backand loded the new lab stl files. Selected appropriate poses for the drone to take depth map matching with the datasets. The edges extracted from the depthmaps are not satisfactory. 
+
+Work to do tomorrow? :  
+-------------------
+Bring the ORBSLAM to scale. Apply morphing and filtering on the cloud. See if ICP works. Am i forgetting something? Is there anything other than icp to try? Ask arnab. I am afraid the matching will not work.
+
+What better can be done? :
+-----------------------
+Increase the time window of each local dataset. Right now it is roughly 8 sec. Increase it. The drone can take more than 15 sec to relocalize itself. 
+
+-------------------------------------------------------------------------------------------
+24/5/2018
+Had personal work. (Tax decleratiosn, aegon policy, TCS medical benificiaries.)
+
+Getting back to work, 
+
+For some reason, edges from depthcloud are not extracted.
+As I found out, edge detection was not working only at that particular height from which the depth cloud was taken. 
+Lot of time was wasted while debugging this problem.
+Things to note for debugging: Most of the time goes into finding out where exactly the code stops. I should add debuging outputs at every tage of the code. 
+-------------------------------------------------------------------------------------------
+25/5/2018 Friday
+I took leave. Could not work at all.
+-------------------------------------------------------------------------------------------
+27/5/2018 Sunday
+Let me work on line morphing
+Morphing TICK. Few lines near the edges of the current big lines are recovered.
+Took a data from local data bagfile (rosbag play --pause -s 74 -u 15 rack_LINE3DPP_recognition_2018-05-23-07-50-44)
+From a very similar position, I took depth map. 
+Extracted edges from it. But few prominant lines that appeared earlier did not appear this time.
+After trials i understood its coz the drone is now farter from the racks so few surfaces are too discontinuous.
+Icp matching is done on both the pointclouds. Initially it gave error. The reason is because there is hardly any overlap between two pointcoulds.
+Meaning Icp struggles if pointclouds have little overlap.
+Anyway I gave initail transformation to data pointcloud to ensure overlap. Even after that, Icp gave very erronuous result.
+------------------------------------------------------------------------------------------
+28/5/2018
+Shortlisted some papers to read. Papers have promising titles but the actual application seldom fits ours.
+Discussed possible ways to go ahead.
+Graph matching is one of them. Have to read the concept and adopt it to our application
+------------------------------------------------------------------------------------------
+29/5/2018
+Arnab proposed the idea of projecting both the line maps, extract only foremost lines by converting it into polar coordinates.
+Project into 2D. TICK
+Convert into polar coordinates TICK
+Bring only the foremost points. TICK
+Register both the filtered floormaps. Not done yet
+
+Drawback of this method is it is a solution very spicific to our case. Have to find a way to generalize it. 
+Things to generalize are, the projection onto z plane assumes that the map is generated without any rotation. The foremost filter also assumes the same.
+------------------------------------------------------------------------------------------
+
+
+Error testing 
+
+Active points for relative localization.
+
+
+-------------------------------------------------------------------------------------------
+12th July 2018
+
+Research Discussion.
+
+FG-BG --> Inpainting --> 
+-------------------------------------------------------------------------------------------
+28th July saturday 
+
+Optical flow:- 
+	1) Find fastest C++ code 
+	2) Read papers:
+		1) The survey on SLAM in dynamic environments.
+		2) Abhijit Kundu paper
+
+	3) FIgure out what to do next?
+I will start with 2.2 followed by 2.1 followed by 3, and the followed by 1 if time permits. Starting at 12:19 PM
+
+In office: Voting system.  
+	 : Error matrix of each feature in 20 frames
+	 : Epipolar error with ground truth.
+
+---------
+A. Kundu 
+	12:20 Started with https://www.youtube.com/watch?v=aNtzgoEGC1Y (Diversions)
+	12:28: Back to Abhijit Kundu
+	12:30 started with a paper.
+		Guess what, I dint.. 
+Fast forward to 29th sunday,
+	I tried to get a crisp optical flow c++ code working but to no vail.
+
+	8:46 PM I started with Abhijit kundu
+	9:40 : Have read only a bit of the paper.
+	2:48AM opencv optical flow implemented on dynamic scene dataset.
+
+-------------------------------------------------------------------------------------------
+31st July(technically 1st august) 1:32 AM
+
+Two Tasks;
+
+1) Find out why epipoalr error in the lab experiment not working.
+
+2) Formulate the whole Dynamic scene localization problem mathematically. 
+
+3) Read literature on Dynamic scene EXTENSIVELY.
+	YOU HAVE 40 DAYS for ICRA. ORGANIZE YOUR EVERY MINUTE.
+
+1: Epipolar error experiment
+Technically if optitrack is right, the fundamental matrices should be right and The epipolar error of 
+static features should be close to zero. Why are they otherwise??
+
+	Experiments to find out/cross-check
+	1: Do the math again. TICK (Fundamental matrix seems to be correct);
+	   From the math and the code side, everything seems to be fine.
+	2. Check in matlab if both ORB and Vrpn+b2co gives the same orientation of camera frame.
+	3. Record experiments with markers in the scene. (Camera tracking marker objects so that they can be reprojected)
+
+-------------------------------------------------------------------------------------------
+1st Aug 
+opencv Lukas-Kanade Optical flow feature tracker looks promising.
+-------------------------------------------------------------------------------------------
+5th August (11:14 PM) Sunday:
+The PRoblems with KLT tracking are these. 
+	The features are lost over time coz of camera scene change, ect. 
+	The incoming moving object does not have any features on it. The features inside the 
+	scene are pushed by the incoming moving object, which is not satisfactory enough for analysis (Visual judgement).
+
+Hence new features are generated along the screen edges according to the optical flow along them.(DONE)
+Now moving object has features on it. Now I have to track all these features including time when they are generated and killed. 
+Possible size of the total array might be = no of time samples x no of total tracked features.
+
+-> Read survey paper again. 
+LOT OF WORK TO DO. 
+
+Things to do: 
+	See if the dynamic feature generation for tracking has been done before. If not it can become a small paper.
+	Try to implement one of the techniques related to statistical methods of dynamic object segmentation from the survey paper.
+
+  
+*Survey paper : Visual SLAM and Structure from Motion in Dynamic Environments: A Survey
+-------------------------------------------------------------------------------------------
+7th Aug: 3:15 PM
+After meeting, following immediate tasks
+
+1) Gazebo environment with competition scenario.
+2) Error analysis of local localization
+3) Epipolar error of tracked features.
+
+
+

@@ -1,0 +1,18 @@
+Introduction to Algebra
+    - .
+    - .
+    - .
+    - Inner product
+	- Canonical Inner product
+	- Kronecker Product and Matrix Stacking
+	- u^T * A * v = ( v (kronecker produt oxo) u )^T * A
+	- ring: closed under matrix multiplixation and summation
+	- Linear groups G
+	- General linear group: Group of matrices that have inverse(are non-singular)
+	- Special linear group: Group of Matrices that have det = 1. Note: their inverse also lies in the group(closeness of group)	
+	- Representing groups by matrices.
+	- group homomorphism
+	- Affine transformation: Forms a group G(n)
+	- Homogeneous affine matrix also forms a group G(n+1) 
+	- Orthogonal group
+	

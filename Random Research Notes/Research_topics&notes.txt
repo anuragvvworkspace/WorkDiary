@@ -1,0 +1,44 @@
+
+------------------------------------------------------------------------------------------
+
+Line based SLAM algorithms
+
+- Check out 
+	- Line-based SLAM ( https://www.youtube.com/watch?v=PHGFhixKzC4 )
+  Less important
+		- StructSLAM(https://www.youtube.com/watch?v=7HNdJEb21DQ)
+		- PL-SLAM: a Stereo SLAM(https://www.youtube.com/watch?v=-lCTf_tAxhQ)
+
+
+Graphical matching 
+Check out concept
+	- Gepmetric hashing
+	- Partial graph matching
+and few papers like
+	- Shape Matching for Robot Mapping
+		https://cis.temple.edu/~latecki/Papers/PRICAI04.pdf
+	- SLAM++
+		https://www.youtube.com/watch?v=tmrAh1CqCRo
+
+--------------------------------------------------------------------------------------------
+Event based visual odometry
+--------------------------------------------------------------------------------------------
+
+
+Object Recognition in SLAM
+
+
+	- Racks must be having distinctive features. Check out occluded object recognition in SLAM. 
+
+--------------------------------------------------------------------------------------------
+Research line regiseration algorithms
+
+ieeexplorer search
+------------------
+- Icl: Iterative closest line
+	for architectural and urban purposes
+
+- Matching sets of 3D line segments with application to polygonal arc matching	
+
+------------------------------------------------------------------------------------------
+Direct Sparse Odometry

@@ -1,0 +1,69 @@
+Moving Object Detection by Multi-View Geometric Techniques from a Single Camera Mounted Robot
+
+Abstract : 
+
+Two conditions to detect moving object
+	One condition is:- epipolar constraint.
+
+	Other is :- In the second constraint, we use the knowledge of the robot
+	motion to estimate a bound in the position of image pixel along
+	the epipolar line. This is capable of detecting moving objects
+	followed by a moving camera in the same direction, a so-called
+	degenerate configuration where the epipolar constraint fails.
+
+To classify the moving pixels robustly, a Bayesian framework
+is used to assign a probability that the pixel is stationary
+or dynamic based on the above geometric properties and
+the probabilities are updated when the pixels are tracked in
+subsequent images. The same framework also accounts for the
+error in estimation of camera motion.
+
+
+
+Introduction :
+
+Some approaches have used optical flow to detect motion,
+[9], [10], [11]. These methods rely on the assumption that,
+person moves differently than the background and motion
+is detected by simply thresholding the difference in flow
+vectors with those surrounding it. These methods however
+suffer from a lack of robustness due to the typical edge
+effects, where the edges of objects also possess different
+flow vectors than those surrounding it leading to considerable
+false positives.
+
+Recently, [6] used stereo to compute depth of
+sparse feature points and tried to estimate the background
+model by a 4x4 projective transformation matrix. Still, there
+is an another underlying assumption of these approaches,
+[6], [7], [8].The assumption that the majority of the inliers
+form the background, can be violated when the scene consists
+of predominantly moving objects or when a moving object
+is very close to the image.
+
+
+The novelty of this paper is the use of geometric con-
+straints within a recursive Bayes filter based probabilistic
+framework to detect moving objects and people with two
+views alone. The method uses gray-level information thereby
+circumventing issues related with color based approaches.
+Also the proposed method does not make restrictive assump-
+tion about the environment, or the robot’s motion.
+
+
+
+
+Overview :
+
+Fundamental matrix from odometry
+Feature tracking KLT tracker
+Geometric constarints
+Probablistic framework/Bayes filter/Recursive
+
+
+
+
+Fundamental Matrix Calculation :
+
+
+

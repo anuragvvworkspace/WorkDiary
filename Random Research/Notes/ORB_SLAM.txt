@@ -1,0 +1,14 @@
+Initialization
+	-  points can be initialized with high uncertainty in depth using an inverse depth parametrization
+	
+Monocular SLAM
+	-  MonoSLAM was initially solved by filtering, processing every frame. . It has the drawbacks of wasting computation in processing consecutive frames with little new information and the accumulation of linearization errors.
+	-  keyframe based selects only few keyframes for a more costly BA algorithm.
+	
+x Place recognition Module
+
+
+	Tracking :
+		- We perform first an initial feature matching with the previous frame and optimize the pose using motion-only BA.
+		- cOnstant velocity model to predict camera pose and perfomr a guided search. 
+
